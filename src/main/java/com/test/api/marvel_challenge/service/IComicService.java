@@ -1,7 +1,7 @@
 package com.test.api.marvel_challenge.service;
 
 import com.test.api.marvel_challenge.dto.Pageable;
-import com.test.api.marvel_challenge.persistence.integration.marvel.ComicDTO;
+import com.test.api.marvel_challenge.persistence.integration.marvel.dto.ComicDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

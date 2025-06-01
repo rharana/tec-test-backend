@@ -1,7 +1,7 @@
 package com.test.api.marvel_challenge.web.controller;
 import com.test.api.marvel_challenge.dto.Pageable;
-import com.test.api.marvel_challenge.persistence.integration.marvel.CharacterDTO;
-import com.test.api.marvel_challenge.persistence.integration.marvel.CharacterInfoDTO;
+import com.test.api.marvel_challenge.persistence.integration.marvel.dto.CharacterDTO;
+import com.test.api.marvel_challenge.persistence.integration.marvel.dto.CharacterInfoDTO;
 import com.test.api.marvel_challenge.service.ICharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
