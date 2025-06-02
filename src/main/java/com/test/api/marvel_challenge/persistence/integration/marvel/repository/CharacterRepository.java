@@ -1,20 +1,19 @@
 package com.test.api.marvel_challenge.persistence.integration.marvel.repository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.test.api.marvel_challenge.dto.Pageable;
+import com.test.api.marvel_challenge.persistence.integration.marvel.mapper.CharacterMapper;
 import com.test.api.marvel_challenge.persistence.integration.marvel.MarvelAPIConfig;
 import com.test.api.marvel_challenge.persistence.integration.marvel.dto.CharacterDTO;
 import com.test.api.marvel_challenge.persistence.integration.marvel.dto.CharacterInfoDTO;
+import com.test.api.marvel_challenge.service.IHttpClientService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Repository
@@ -22,6 +21,9 @@ public class CharacterRepository {
 
     @Autowired
     private MarvelAPIConfig marvelAPIConfig;
+
+    @Autowired
+    private IHttpClientService httpClientService;
 
     @Value("${integration.marvel.base-path}")
     private String basePath;
@@ -40,7 +42,7 @@ public class CharacterRepository {
             int[] series)
     {
         Map<String, String> queryparams = getQueryParamsForFindAll(pageable,name,comics,series);
-        JsonNode response = HTTPClientService.doGet(characterPath, queryparams, JsonNode.class);
+        JsonNode response = httpClientService.doGet(characterPath, queryparams, JsonNode.class);
 
         return CharacterMapper.toDTOList(response);
     }
@@ -48,8 +50,8 @@ public class CharacterRepository {
     public CharacterInfoDTO findInfoById(Long id) {
         Map<String, String> queryparams = marvelAPIConfig.getAuthenticationQueryParams();
         String finalURL = characterPath.concat("/").concat(Long.toString(id));
-        JsonNode response = HTTPClientService.doGet(finalURL, queryparams);
-        return CharacterMapper.toDTOList(response).get(0);
+        JsonNode response = httpClientService.doGet(finalURL, queryparams, JsonNode.class);
+        return CharacterMapper.toInfoDTOList(response).getFirst();
     }
 
 
